@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFlow - AI Productivity Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-theme="dark">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="logo">FocusFlow 🚀</h1>
+            <button id="sidebarToggle" class="sidebar-toggle">☰</button>
+        </div>
+        <nav class="sidebar-nav">
+            <button class="nav-item active" data-page="dashboard">
+                <span>📊</span> Dashboard
+            </button>
+            <button class="nav-item" data-page="tasks">
+                <span>📝</span> Tasks
+            </button>
+            <button class="nav-item" data-page="pomodoro">
+                <span>⏱️</span> Pomodoro
+            </button>
+            <button class="nav-item" data-page="habits">
+                <span>📈</span> Habits
+            </button>
+            <button class="nav-item" data-page="analytics">
+                <span>📉</span> Analytics
+            </button>
+            <button class="nav-item" data-page="calendar">
+                <span>📅</span> Calendar
+            </button>
+            <button class="nav-item" data-page="social">
+                <span>👥</span> Social
+            </button>
+            <button class="nav-item" data-page="profile">
+                <span>👤</span> Profile
+            </button>
+        </nav>
+    </aside>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <input type="text" class="search-bar" placeholder="Search tasks, habits...">
+            </div>
+            <div class="topbar-right">
+                <button class="topbar-btn">
+                    <span>🔔</span>
+                    <span class="badge">3</span>
+                </button>
+                <button class="topbar-btn profile-avatar" id="themeToggle">
+                    <span>🧑‍💻</span>
+                    <kbd class="shortcut-hint">⌘K</kbd>
+                </button>
+                <div class="shortcuts-hint">
+                    <span>⌘K Search • Space Play/Pause • / Quick Add</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <section id="dashboard" class="page active">
+                <div class="page-header">
+<h1 id="dynamicGreeting">Hello, Alex! 👋</h1>
+                    <p class="subtitle">Your productivity journey starts here</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" data-stat="tasks">127</div>
+                        <div class="stat-label">Tasks Completed</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" data-stat="focus">8h 42m</div>
+                        <div class="stat-label">Focus Time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value streak" data-stat="streak">7🔥</div>
+                        <div class="stat-label">Current Streak</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="productivity-ring">
+                            <div class="ring-value" data-stat="score">92</div>
+                        </div>
+                        <div class="stat-label">Score</div>
+                    </div>
+                </div>
+                <div class="dashboard-preview">
+                    <div class="preview-card">
+                        <h3>Today's Tasks</h3>
+                        <div class="task-preview-list">
+                            <!-- Tasks populated by JS -->
+                        </div>
+                    </div>
+                    <div class="preview-card ai-suggestion">
+                        <h3>AI Suggestion</h3>
+                        <textarea id="aiInput" placeholder="Ask FocusFlow... (What should I focus on today?)"></textarea>
+                        <button class="btn-primary">Generate Plan</button>
+                        <div class="ai-response"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tasks Page -->
+            <section id="tasks" class="page">
+                <div class="page-header">
+                    <h1>Tasks</h1>
+                    <button class="fab" id="addTaskBtn">+</button>
+                </div>
+                <div class="tasks-layout">
+                    <div class="tasks-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="pending">Pending</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                    </div>
+                    <div class="task-list" id="taskList">
+                        <!-- Tasks rendered by JS -->
+                    </div>
+                </div>
+                <!-- Task Modal -->
+                <div class="modal" id="taskModal">
+                    <div class="modal-content">
+                        <h2 id="modalTitle">Add Task</h2>
+                        <form id="taskForm">
+                            <input type="text" id="taskTitle" placeholder="Task title">
+                            <select id="taskCategory">
+                                <option>Work</option>
+                                <option>Personal</option>
+                                <option>Study</option>
+                            </select>
+                            <select id="taskPriority">
+                                <option>Low</option>
+                                <option>Medium</option>
+                                <option>High</option>
+                            </select>
+                            <input type="date" id="taskDue">
+                            <textarea id="taskDescription" placeholder="Description..."></textarea>
+                            <div class="form-actions">
+                                <button type="button" class="btn-secondary" id="cancelTask">Cancel</button>
+                                <button type="submit" class="btn-primary">Create Task</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pomodoro Page -->
+            <section id="pomodoro" class="page">
+                <div class="page-header">
+                    <h1>Pomodoro</h1>
+                </div>
+                <div class="pomodoro-container">
+                    <div class="timer-display">
+                        <div class="timer-circle" id="pomodoroTimer">
+                            <svg viewBox="0 0 260 260">
+                                <circle cx="130" cy="130" r="120" class="timer-bg"/>
+                                <circle cx="130" cy="130" r="120" class="timer-progress"/>
+                                <div class="timer-text" id="timerText">25:00</div>
+                            </svg>
+                        </div>
+                        <div class="timer-info">
+                            <div class="timer-mode" id="timerMode">Focus</div>
+                            <div class="session-stats">
+                                <span>Sessions: <span id="sessionCount">0</span></span>
+                                <span>Today: <span id="todaySessions">0</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timer-controls">
+                        <button class="btn-large" id="startTimer">▶️ Start</button>
+                        <button class="btn-large secondary" id="pauseTimer">⏸️ Pause</button>
+                        <button class="btn-large secondary" id="resetTimer">🔄 Reset</button>
+                    </div>
+                    <div class="focus-mode-btn">
+                        <button id="focusModeBtn" class="btn-outline">🧘 Focus Mode</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Habits Page -->
+            <section id="habits" class="page">
+                <div class="page-header">
+                    <h1>Habits</h1>
+                    <button class="fab" id="addHabitBtn">+</button>
+                </div>
+                <div class="habits-grid" id="habitsGrid">
+                    <!-- Habits rendered by JS -->
+                </div>
+            </section>
+
+            <!-- Analytics Page -->
+            <section id="analytics" class="page">
+                <div class="page-header">
+                    <h1>Analytics</h1>
+                </div>
+                <div class="analytics-charts">
+                    <div class="chart-card">
+                        <h3>Weekly Focus Time</h3>
+                        <canvas id="focusChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Tasks by Category</h3>
+                        <canvas id="taskChart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="chart-card heatmap">
+                        <h3>Habit Heatmap</h3>
+                        <div id="habitHeatmap">
+                            <!-- Heatmap grid -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Calendar Page -->
+            <section id="calendar" class="page">
+                <div class="page-header">
+                    <h1>Calendar</h1>
+                </div>
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <button class="nav-btn">‹</button>
+                        <h2 id="currentMonthYear">October 2024</h2>
+                        <button class="nav-btn">›</button>
+                    </div>
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar rendered by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Social Page -->
+            <section id="social" class="page">
+                <div class="page-header">
+                    <h1>Social</h1>
+                </div>
+                <div class="social-content">
+                    <div class="leaderboard">
+                        <h3>Leaderboard</h3>
+                        <div class="leaderboard-list">
+                            <div class="leader-item">
+                                <div class="rank">1</div>
+                                <div class="user-info">
+                                    <div class="avatar">JD</div>
+                                    <div>John Doe</div>
+                                </div>
+                                <div class="score">12,450 XP</div>
+                            </div>
+                            <!-- More leaders -->
+                        </div>
+                    </div>
+                    <div class="study-room">
+                        <h3>Study Room</h3>
+                        <div class="room-card active">
+                            <div class="room-count">12 people focusing</div>
+                            <button class="btn-primary">Join Room</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Page -->
+            <section id="profile" class="page">
+                <div class="page-header">
+                    <h1>Profile</h1>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-header">
+                        <div class="avatar large">AF</div>
+                        <h2>Alex Flow</h2>
+                        <div class="level">Level 7 Master (2,847 XP)</div>
+                    </div>
+                    <div class="achievements">
+                        <h3>Achievements</h3>
+                        <div class="badge-grid">
+                            <div class="badge">7-Day Streak</div>
+                            <div class="badge active">50 Tasks</div>
+                            <div class="badge">100 Pomodoros</div>
+                        </div>
+                    </div>
+                    <div class="settings">
+                        <h3>Settings</h3>
+                        <button class="btn-primary" id="exportData">Export Data</button>
+                        <button class="btn-primary" id="importData">Import Data</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Focus Mode Overlay -->
+    <div id="focusModeOverlay" class="focus-overlay">
+        <div class="focus-content">
+            <div class="focus-task" id="focusTask"></div>
+            <div class="focus-timer" id="focusTimer"></div>
+            <button id="exitFocus" class="exit-focus">✕</button>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="notifications" id="notifications"></div>
+</body>
+</html>
