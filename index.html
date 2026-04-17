@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusFlow - Productivity Platform</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="script.js" defer></script>
+</head>
+<body data-theme="dark">
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-card">
+            <div class="logo">FocusFlow</div>
+            <h1>Welcome Back</h1>
+            <p>Sign in to your productivity dashboard</p>
+            
+            <form id="authForm">
+                <div class="input-group">
+                    <span class="icon">👤</span>
+                    <input type="text" id="userName" placeholder="Name" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon">📧</span>
+                    <input type="email" id="userEmail" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <span class="icon">🔒</span>
+                    <input type="password" id="userPassword" placeholder="Password" required>
+                </div>
+                
+                <div class="auth-toggle">
+                    <button type="button" id="signupToggle" class="toggle-btn">Sign Up</button>
+                    <button type="button" id="loginToggle" class="toggle-btn active">Login</button>
+                </div>
+                
+                <button type="submit" class="btn-primary full-width">Continue</button>
+            </form>
+            
+            <div id="authMessage" class="auth-message"></div>
+        </div>
+    </div>
+
+    <!-- Main App (hidden until login) -->
+    <div id="mainApp" class="app-container" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>FocusFlow</h2>
+                <button id="sidebarToggle" class="sidebar-toggle">☰</button>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-page="dashboard">📊 Dashboard</button>
+                <button class="nav-item" data-page="tasks">📝 Tasks</button>
+                <button class="nav-item" data-page="pomodoro">⏱️ Pomodoro</button>
+                <button class="nav-item" data-page="habits">📈 Habits</button>
+                <button class="nav-item" data-page="analytics">📉 Analytics</button>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="themeToggle" class="theme-btn">🌙</button>
+                <button id="logoutBtn" class="logout-btn">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Topbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <input type="text" class="search-bar" id="globalSearch" placeholder="Search tasks & habits...">
+                </div>
+                <div class="topbar-right">
+                    <span id="userGreeting" class="user-name"></span>
+                </div>
+            </header>
+
+            <!-- Content -->
+            <main class="main-content">
+                <!-- Dashboard -->
+                <section id="dashboard" class="page active">
+                    <div class="page-header">
+                        <h1 id="welcomeMsg">Welcome back!</h1>
+                        <p class="subtitle">Your productivity overview</p>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="totalTasks">0</div>
+                            <div>Tasks Completed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="pomodoroSessions">0</div>
+                            <div>Focus Sessions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="habitStreak">0</div>
+                            <div>Current Streak</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-score" id="dailyScore">85</div>
+                            <div>Daily Score</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tasks -->
+                <section id="tasks" class="page">
+                    <div class="page-header">
+                        <h1>Tasks</h1>
+                        <div class="page-actions">
+                            <input type="text" class="quick-add" id="quickTaskInput" placeholder="Quick add task...">
+                            <button id="addTaskBtn" class="btn-primary">+</button>
+                        </div>
+                    </div>
+                    <div class="filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="active">Active</button>
+                        <button class="filter-btn" data-filter="completed">Completed</button>
+                    </div>
+                    <div id="taskList" class="task-list"></div>
+                </section>
+
+                <!-- Pomodoro -->
+                <section id="pomodoro" class="page">
+                    <div class="page-header">
+                        <h1>Pomodoro Timer</h1>
+                    </div>
+                    <div class="pomodoro-container">
+                        <div class="timer-display" id="timerDisplay">
+                            <div class="timer-circle">
+                                <svg viewBox="0 0 300 300">
+                                    <circle class="timer-bg" cx="150" cy="150" r="135"></circle>
+                                    <circle class="timer-progress" cx="150" cy="150" r="135"></circle>
+                            </svg>
+                                <div class="timer-time" id="timerTime">25:00</div>
+                            </div>
+                            <div class="timer-mode" id="timerMode">Focus Time</div>
+                        </div>
+                        <div class="timer-controls">
+                            <button id="timerStart" class="btn-large btn-primary">▶️ Start</button>
+                            <button id="timerPause" class="btn-large btn-secondary" style="display: none;">⏸️ Pause</button>
+                            <button id="timerReset" class="btn-large btn-secondary">🔄 Reset</button>
+                        </div>
+                        <div class="session-stats">
+                            <span>Today: <span id="todaySessions">0</span></span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Habits -->
+                <section id="habits" class="page">
+                    <div class="page-header">
+                        <h1>Habit Tracker</h1>
+                        <div class="page-actions">
+                            <input type="text" class="quick-add" id="quickHabitInput" placeholder="New habit...">
+                            <button id="addHabitBtn" class="btn-primary">+</button>
+                        </div>
+                    </div>
+                    <div id="habitList" class="habit-grid"></div>
+                </section>
+
+                <!-- Analytics -->
+                <section id="analytics" class="page">
+                    <div class="page-header">
+                        <h1>Analytics</h1>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="chart-card">
+                            <h3>Task Completion</h3>
+                            <canvas id="taskChart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Focus Time</h3>
+                            <div class="stat-large">8h 42m this week</div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Habit Streak</h3>
+                            <div class="streak-display">7 days 🔥</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
